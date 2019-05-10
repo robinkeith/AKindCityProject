@@ -23,6 +23,7 @@ mapId="map";
   //OverPassAPI overlay
   var opl = new L.OverPassLayer({
     query: "node(BBOX)['amenity'='toilets'];out;",
+    endpoint: "https://overpass-api.de/api/"
   });
 
   map.addLayer(opl);
