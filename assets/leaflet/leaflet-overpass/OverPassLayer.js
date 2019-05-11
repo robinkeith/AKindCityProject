@@ -112,6 +112,9 @@ L.OverPassLayer = L.FeatureGroup.extend({
         var pos;
         if (e.type === "node") {
           pos = new L.LatLng(e.lat, e.lon);
+        } else if (e.type === "way") {
+          
+          pos = new L.LatLng(e.nodes[0], e.nodes[1]);
         } else {
           pos = new L.LatLng(e.center.lat, e.center.lon);
         }
