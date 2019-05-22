@@ -11,8 +11,9 @@ let baseMaps = {
 };
 
 let overlayMaps = {
+  "Parking": overpassLayerByAmmenity('"amenity=parking"'),
   "Toilets": overpassLayerByAmmenity('"amenity=toilets"'),
-  "Accessible": overpassLayerByAmmenity('"wheelchair"="yes"'),
+  "Marked Accessible": overpassLayerByAmmenity('"wheelchair"="yes"'),
   "NOT Accessible": overpassLayerByAmmenity('"wheelchair"="no"')
 };
 
@@ -27,11 +28,6 @@ function building25Dlayer(){
     id: 'mapbox.streets',
     accessToken: mapBoxAPIkey
   });
-  /*return new L.TileLayer('https://{s}.tiles.mapbox.com/v3/'+ mapBoxAPIkey +'/{z}/{x}/{y}.png', {
-    attribution: '© Map tiles <a href="https://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    maxNativeZoom: 20
-  });*/
   //var osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
 }
 
@@ -39,12 +35,25 @@ function building25Dlayer(){
   let query='(node[' + test+'](BBOX);way[' + test+'](BBOX););out;&gt;;out skel qt;';
   //relation['+ test+'](BBOX);
   return new L.OverPassLayer({
-    debug: false,
-    //markerIcon: L.Icon(),
-    timeout: 30 * 1000, // Milliseconds
-  
+    debug: true,
     query: query,
-    endpoint: "https://overpass-api.de/api/"
+    endpoint: "https://overpass-api.de/api/",
+    
+    markerIcon: new L.Icon(),
+    timeout: 30 * 1000, // Milliseconds
+    retryOnTimeout: false,
+    noInitialRequest: false,
+    minZoomIndicatorEnabled: true,
+    minZoomIndicatorOptions: {
+      position: 'topright',
+      minZoomMessageNoLayer: 'No layer assigned',
+      minZoomMessage: 'Current zoom level: CURRENTZOOM - All data at level: MINZOOMLEVEL'
+    },
+    beforeRequest: function() {},
+    afterRequest: function() {},
+    onSuccess: function(data) {},
+    onError: function(xhr) {},
+    onTimeout: function(xhr) {},
   });
  }
 
